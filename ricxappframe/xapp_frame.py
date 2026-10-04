@@ -145,7 +145,10 @@ class _BaseXapp:
         if app_namespace is not None and host is not None:
             svc = service.format(app_namespace.upper(), host.upper())
             urlkey = svc.replace("-", "_")
-            url = os.environ.get(urlkey).split("//")
+            service_url = os.environ.get(urlkey)
+            if not service_url:
+                return ""
+            url = service_url.split("//")
             self.logger.debug("Service urlkey : {} and url: {}".format(urlkey, url))
             if len(url) > 1:
                 return url[1]
