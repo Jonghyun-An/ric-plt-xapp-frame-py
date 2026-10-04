@@ -71,6 +71,7 @@ class Symptomdata(object):
         self.timeout = timeout
         # runtime attrs
         self.zipfilename = None
+        self.subscribetimer = None
         logging.info("Symptomdata init service:%s path:%s lwsduri:%s timeout:%d" % (self.service, self.path, self.lwsduri, self.timeout))
         if self.lwsduri is not None:
             # do the subscription, set to True so that first the query is triggered
