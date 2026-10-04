@@ -53,25 +53,21 @@ class RestHandler(http.server.BaseHTTPRequestHandler):
 
     def _sendResponse(self, response):
         # sends the reponse according to the initResponse() response data
+        payload = response['payload']
+        if payload is not None and response['mode'] == 'plain':
+            payload = payload.encode('utf-8')
         self.send_response(response['status'])
         self.send_header("Server-name", "XAPP REST SERVER 0.9")
         self.send_header('Content-type', response['ctype'])
 
-        if response['payload'] is not None:
+        if payload is not None:
             # payload has been set
-            length = len(response['payload'])
-            if length != 0:
-                self.send_header('Content-length', length)
+            self.send_header('Content-length', len(payload))
             if response['attachment'] is not None:
                 self.send_header('Content-Disposition', "attachment; filename=" + response['attachment'])
         self.end_headers()
-        if response['payload'] is not None:
-            if response['mode'] == 'plain':
-                # ascii mode
-                self.wfile.write(response['payload'].encode('utf-8'))
-            elif response['mode'] == 'binary':
-                # binary mode
-                self.wfile.write(response['payload'])
+        if payload is not None:
+            self.wfile.write(payload)
 
     def add_handler(self, method=None, name=None, uri=None, callback=None):
         """
