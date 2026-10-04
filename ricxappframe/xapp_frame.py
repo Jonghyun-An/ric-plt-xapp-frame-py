@@ -183,16 +183,7 @@ class _BaseXapp:
             return resp.status_code == 200 or resp.status_code == 201
         except requests.exceptions.RequestException as err:
             self.logger.error("Error : {}".format(err))
-            return format(err)
-        except requests.exceptions.HTTPError as errh:
-            self.logger.error("Http Error: {}".format(errh))
-            return errh
-        except requests.exceptions.ConnectionError as errc:
-            self.logger.error("Error Connecting: {}".format(errc))
-            return errc
-        except requests.exceptions.Timeout as errt:
-            self.logger.error("Timeout Error: {}".format(errt))
-            return errt
+            return False
 
     def register(self):
         """
