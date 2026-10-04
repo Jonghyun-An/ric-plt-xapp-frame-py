@@ -184,9 +184,9 @@ class Symptomdata(object):
         """
         zipfilename = self.path + datetime.fromtimestamp(int(time.time())).strftime(zipfiletmpl)
         logging.info("Compressing files to symptomdata archive: %s" % (zipfilename))
-        zipdata = ZipFile(zipfilename, "w")
         self.remove()
         self.zipfilename = None
+        zipdata = ZipFile(zipfilename, "w")
         fileCnt = 0
         for fileregex in fileregexlist:
             logging.info("Compressing files using %s" % (fileregex))
